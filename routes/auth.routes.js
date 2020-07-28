@@ -6,8 +6,19 @@ const bcryptjs = require('bcryptjs');
 const saltRounds = 10;
 const User = require('../models/User.model');
 const mongoose = require('mongoose');
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const multerStorageCloudinary = require('multer-storage-cloudinary');
 
 const routeGuard = require('../configs/route-guard.config');
+
+//this saves files remotely
+const storage = new multerStorageCloudinary.CloudinaryStorage({
+  cloudinary: cloudinary
+});
+
+//this uploads the files
+const upload = multer({ storage });
 
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////////// SIGNUP //////////////////////////////////
@@ -17,7 +28,7 @@ const routeGuard = require('../configs/route-guard.config');
 router.get('/signup', (req, res) => res.render('auth/signup'));
 
 // .post() route ==> to process form data
-router.post('/signup', (req, res, next) => {
+router.post('/signup', upload.single('picture'), (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {

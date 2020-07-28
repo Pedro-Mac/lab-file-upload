@@ -19,6 +19,7 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true
     },
+    picture: String,
     passwordHash: {
       type: String,
       required: [true, 'Password is required.']

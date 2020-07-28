@@ -1,2 +1,10 @@
 <h1>{{title}}</h1>
 <p>Welcome Ironhacker!</p>
+
+{{#each post}}
+<div>
+  <h5>{{this.creator.username}}</h5>
+  <p>{{this.content}}</p>
+  <a href="/post/{{this.id}}">See more</a>
+</div>
+{{/each}}
